@@ -90,7 +90,17 @@ routes.post("/accept_friend_request", (req, res) => {
 });
 
 
+//decline friend request
+routes.post("/decline_friend_request", (req, res) => {
+    declineRequest(req.body.id, req.body.friendId);
+    res.json({ message: "OK" , data : req.body});
+});
 
+//remove friend
+routes.post("/remove_friend", (req, res) => {
+    removeFriend(req.body.id, req.body.friendId);
+    res.json({ message: "OK" , data : req.body});
+});
 
 
 
