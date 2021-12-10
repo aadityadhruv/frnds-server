@@ -1,5 +1,5 @@
 # frnds-server
-Server for the Frnds Web App
+Server for the Frnds Web App at https://frnds-backend.herokuapp.com/
 
 
 
