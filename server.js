@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const { createUser, getClasses, friendsInClass } = require("./utils");
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 app.use(cors());
 app.use(bodyParser.json());
 
