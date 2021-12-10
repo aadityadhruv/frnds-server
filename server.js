@@ -29,7 +29,7 @@ console.log("hello");
 });
 
 //create user
-app.post("/createuser", (req, res) => {
+app.put("/createuser", (req, res) => {
   createUser(req.body);
   res.json({ message: "OK", data: req.body });
 });
