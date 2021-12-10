@@ -1,9 +1,27 @@
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
 const config = require("./config");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const { createUser, getClasses, friendsInClass, commonClasses, addClass, removeClass, updatePhone, updateUsername, updateYear, sendRequest, acceptRequest, declineRequest, removeFriend, hasSentRequest, hasReceivedRequest, areFriends } = require("./utils");
+const {
+  createUser,
+  getClasses,
+  friendsInClass,
+  commonClasses,
+  addClass,
+  removeClass,
+  updatePhone,
+  updateUsername,
+  updateYear,
+  sendRequest,
+  acceptRequest,
+  declineRequest,
+  removeFriend,
+  hasSentRequest,
+  hasReceivedRequest,
+  areFriends,
+} = require("./utils");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
@@ -25,7 +43,7 @@ try {
 console.log(PORT);
 
 app.get("/", (req, res) => {
-console.log("hello");
+  console.log("hello");
   res.json({ message: "Welcome to the Frnds-backend" });
 });
 
@@ -51,84 +69,113 @@ app.get("/friends_classes", async (req, res) => {
 
 //get common classes
 app.get("/common_classes", async (req, res) => {
-   await commonClasses(req.query.id, req.query.friendId).then((classes) => {
+  await commonClasses(req.query.id, req.query.friendId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //add class
 app.post("/add_class", async (req, res) => {
-   await addClass(req.query.id, req.query.classId).then((classes) => {
+  await addClass(req.query.id, req.query.classId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //remove class
 app.post("/remove_class", async (req, res) => {
-   await removeClass(req.query.id, req.query.classId).then((classes) => {
+  await removeClass(req.query.id, req.query.classId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //update user
 app.post("/update_user", async (req, res) => {
-   await updateUsername(req.query.id, req.query.username);
-   await updatePhone(req.query.id, req.query.phone);
-   await updateYear(req.query.id, req.query.year);
+  await updateUsername(req.query.id, req.query.username);
+  await updatePhone(req.query.id, req.query.phone);
+  await updateYear(req.query.id, req.query.year);
   res.json({ message: "OK", data: req.query });
 });
 
 //send friend request
 app.post("/send_friend_request", async (req, res) => {
-   await sendRequest(req.query.id, req.query.friendId);
+  await sendRequest(req.query.id, req.query.friendId);
   res.json({ message: "OK", data: req.query });
 });
 
 //accept friend request
 app.post("/accept_friend_request", async (req, res) => {
-   await acceptRequest(req.query.id, req.query.friendId);
+  await acceptRequest(req.query.id, req.query.friendId);
   res.json({ message: "OK", data: req.query });
 });
 
 //decline friend request
 app.post("/decline_friend_request", async (req, res) => {
-   await declineRequest(req.query.id, req.query.friendId);
+  await declineRequest(req.query.id, req.query.friendId);
   res.json({ message: "OK", data: req.query });
 });
 
 //remove friend
 app.post("/remove_friend", async (req, res) => {
-   await removeFriend(req.query.id, req.query.friendId);
+  await removeFriend(req.query.id, req.query.friendId);
   res.json({ message: "OK", data: req.query });
 });
 
-
-
 //check if has sent request
 app.post("/has_sent_request", async (req, res) => {
-     await hasSentRequest(req.query.id, req.query.friendId).then((data) => {
-        res.json({ message: "OK", data: data });
-    });
+  await hasSentRequest(req.query.id, req.query.friendId).then((data) => {
+    res.json({ message: "OK", data: data });
+  });
 });
 
 //check if recieved request
 app.post("/has_recieved_request", async (req, res) => {
-    await  hasRecievedRequest(req.query.id, req.query.friendId).then((data) => {
-        res.json({ message: "OK", data: data });
-    });
+  await hasRecievedRequest(req.query.id, req.query.friendId).then((data) => {
+    res.json({ message: "OK", data: data });
+  });
 });
-
 
 //check if two users are friends
 app.get("/check_friends", async (req, res) => {
-     await areFriends(req.query.id, req.query.friendId).then((friends) => {
-        res.json({ message: "OK", data: friends });
-    });
+  await areFriends(req.query.id, req.query.friendId).then((friends) => {
+    res.json({ message: "OK", data: friends });
+  });
 });
 
+//API Call
 
+app.get("/course", (req, res) => {
+  const { year, semester, subject, code, crn } = req.query;
 
+  if (crn) {
+    axios
+      .get(
+        `https://courses.illinois.edu/cisapp/explorer/schedule/${year}/${semester}/${subject}/${code}/${crn}.xml`,
+        { "Content-Type": "application/xml; charset=utf-8" }
+      )
+      .then((response) => {
+        res.send({ message: "OK", data: response.data });
+      });
+  } else if (code) {
 
+    axios
+      .get(
+        `https://courses.illinois.edu/cisapp/explorer/schedule/${year}/${semester}/${subject}/${code}.xml`,
+        { "Content-Type": "application/xml; charset=utf-8" }
+      )
+      .then((response) => {
+        res.send({ message: "OK", data: response.data });
+      });
+    } else {
+      axios
+        .get(
+          `https://courses.illinois.edu/cisapp/explorer/schedule/${year}/${semester}/${subject}.xml`,
+          { "Content-Type": "application/xml; charset=utf-8" }
+        )
+        .then((response) => {
+          res.send({ message: "OK", data: response.data });
+        });
+    }
+});
 
 app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
