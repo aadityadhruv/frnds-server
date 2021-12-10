@@ -21,6 +21,7 @@ try {
 
 //basic display
 
+console.log(PORT);
 
 app.get("/", (req, res) => {
 console.log("hello");
