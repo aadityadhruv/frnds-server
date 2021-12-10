@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 });
 
 //create user
-app.put("/createuser", (req, res) => {
+app.post("/createuser", (req, res) => {
   createUser(req.body);
   res.json({ message: "OK", data: req.body });
 });
