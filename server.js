@@ -3,7 +3,7 @@ const cors = require("cors");
 const config = require("./config");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const { createUser, getClasses, friendsInClass } = require("./utils");
+const { createUser, getClasses, friendsInClass, commonClasses, addClass, removeClass, updatePhone, updateUsername, updateYear, sendRequest, acceptRequest, declineRequest, removeFriend, hasSentRequest, hasReceivedRequest, areFriends } = require("./utils");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(cors());
@@ -36,92 +36,92 @@ app.put("/createuser", (req, res) => {
 });
 
 //get user classes
-app.get("/classes", (req, res) => {
-  getClasses(req.body.id).then((classes) => {
+app.get("/classes", async (req, res) => {
+  await getClasses(req.query.id).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //get friends in class
-app.get("/friends_classes", (req, res) => {
-  friendsInClass(req.body.id, req.body.classId).then((friends) => {
+app.get("/friends_classes", async (req, res) => {
+  await friendsInClass(req.query.id, req.query.classId).then((friends) => {
     res.json({ message: "OK", data: friends });
   });
 });
 
 //get common classes
-app.get("/common_classes", (req, res) => {
-  commonClasses(req.body.id, req.body.friendId).then((classes) => {
+app.get("/common_classes", async (req, res) => {
+   await commonClasses(req.query.id, req.query.friendId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //add class
-app.post("/add_class", (req, res) => {
-  addClass(req.body.id, req.body.classId).then((classes) => {
+app.post("/add_class", async (req, res) => {
+   await addClass(req.query.id, req.query.classId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //remove class
-app.post("/remove_class", (req, res) => {
-  removeClass(req.body.id, req.body.classId).then((classes) => {
+app.post("/remove_class", async (req, res) => {
+   await removeClass(req.query.id, req.query.classId).then((classes) => {
     res.json({ message: "OK", data: classes });
   });
 });
 
 //update user
-app.post("/update_user", (req, res) => {
-  updateUsername(req.body.id, req.body.username);
-  updatePhone(req.body.id, req.body.phone);
-  updateYear(req.body.id, req.body.year);
-  res.json({ message: "OK", data: req.body });
+app.post("/update_user", async (req, res) => {
+   await updateUsername(req.query.id, req.query.username);
+   await updatePhone(req.query.id, req.query.phone);
+   await updateYear(req.query.id, req.query.year);
+  res.json({ message: "OK", data: req.query });
 });
 
 //send friend request
-app.post("/send_friend_request", (req, res) => {
-  sendRequest(req.body.id, req.body.friendId);
-  res.json({ message: "OK", data: req.body });
+app.post("/send_friend_request", async (req, res) => {
+   await sendRequest(req.query.id, req.query.friendId);
+  res.json({ message: "OK", data: req.query });
 });
 
 //accept friend request
-app.post("/accept_friend_request", (req, res) => {
-  acceptRequest(req.body.id, req.body.friendId);
-  res.json({ message: "OK", data: req.body });
+app.post("/accept_friend_request", async (req, res) => {
+   await acceptRequest(req.query.id, req.query.friendId);
+  res.json({ message: "OK", data: req.query });
 });
 
 //decline friend request
-app.post("/decline_friend_request", (req, res) => {
-  declineRequest(req.body.id, req.body.friendId);
-  res.json({ message: "OK", data: req.body });
+app.post("/decline_friend_request", async (req, res) => {
+   await declineRequest(req.query.id, req.query.friendId);
+  res.json({ message: "OK", data: req.query });
 });
 
 //remove friend
-app.post("/remove_friend", (req, res) => {
-  removeFriend(req.body.id, req.body.friendId);
-  res.json({ message: "OK", data: req.body });
+app.post("/remove_friend", async (req, res) => {
+   await removeFriend(req.query.id, req.query.friendId);
+  res.json({ message: "OK", data: req.query });
 });
 
 
 
 //check if has sent request
-app.post("/has_sent_request", (req, res) => {
-    hasSentRequest(req.body.id, req.body.friendId).then((data) => {
+app.post("/has_sent_request", async (req, res) => {
+     await hasSentRequest(req.query.id, req.query.friendId).then((data) => {
         res.json({ message: "OK", data: data });
     });
 });
 
 //check if recieved request
-app.post("/has_recieved_request", (req, res) => {
-    hasRecievedRequest(req.body.id, req.body.friendId).then((data) => {
+app.post("/has_recieved_request", async (req, res) => {
+    await  hasRecievedRequest(req.query.id, req.query.friendId).then((data) => {
         res.json({ message: "OK", data: data });
     });
 });
 
 
 //check if two users are friends
-app.get("/check_friends", (req, res) => {
-    areFriends(req.body.id, req.body.friendId).then((friends) => {
+app.get("/check_friends", async (req, res) => {
+     await areFriends(req.query.id, req.query.friendId).then((friends) => {
         res.json({ message: "OK", data: friends });
     });
 });
