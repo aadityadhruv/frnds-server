@@ -25,6 +25,7 @@ const User = mongoose.model('User', userSchema);
 //function to create a new user
 const createUser = (userData) => {
     var user = new User(userData);
+    user._id = new ObjectId().toHexString();
     user.save();
 }
 
@@ -142,6 +143,29 @@ const createUser = (userData) => {
 
 
 
+module.exports = {
+    createUser,
+    getUserById,
+    getUserByEmail,
+    getFriends,
+    getPendingRequests,
+    getRequestsSent,
+    getClasses,
+    updatePhone,
+    updateUsername,
+    updateYear,
+    addClass,
+    removeClass,
+    sendRequest,
+    acceptRequest,
+    declineRequest,
+    removeFriend,
+    areFriends,
+    hasSentRequest,
+    hasReceivedRequest,
+    commonClasses,
+    friendsInClass
+}
 
 
 
