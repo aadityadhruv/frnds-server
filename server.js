@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const { createUser, getClasses, friendsInClass } = require("./utils");
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -100,6 +100,34 @@ app.post("/remove_friend", (req, res) => {
   removeFriend(req.body.id, req.body.friendId);
   res.json({ message: "OK", data: req.body });
 });
+
+
+
+//check if has sent request
+app.post("/has_sent_request", (req, res) => {
+    hasSentRequest(req.body.id, req.body.friendId).then((data) => {
+        res.json({ message: "OK", data: data });
+    });
+});
+
+//check if recieved request
+app.post("/has_recieved_request", (req, res) => {
+    hasRecievedRequest(req.body.id, req.body.friendId).then((data) => {
+        res.json({ message: "OK", data: data });
+    });
+});
+
+
+//check if two users are friends
+app.get("/check_friends", (req, res) => {
+    areFriends(req.body.id, req.body.friendId).then((friends) => {
+        res.json({ message: "OK", data: friends });
+    });
+});
+
+
+
+
 
 app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
