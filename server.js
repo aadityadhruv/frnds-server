@@ -20,6 +20,16 @@ try {
   console.log(e);
 }
 
+
+//basic display
+
+routes.get("/", (req, res) => {
+    res.json({ message: "Welcome to the Frnds-backend" });
+    });
+
+
+
+
 //create user
 routes.post("/createuser", (req, res) => {
   createUser(req.body);
