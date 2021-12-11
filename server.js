@@ -89,7 +89,7 @@ app.post("/remove_class", async (req, res) => {
 });
 
 //update user
-app.post("/update_user", async (req, res) => {
+app.put("/update_user", async (req, res) => {
   await updateUsername(req.query.id, req.query.username);
   await updatePhone(req.query.id, req.query.phone);
   await updateYear(req.query.id, req.query.year);
