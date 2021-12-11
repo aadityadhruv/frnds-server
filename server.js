@@ -121,14 +121,14 @@ app.post("/remove_friend", async (req, res) => {
 });
 
 //check if has sent request
-app.post("/has_sent_request", async (req, res) => {
+app.get("/has_sent_request", async (req, res) => {
   await hasSentRequest(req.query.id, req.query.friendId).then((data) => {
     res.json({ message: "OK", data: data });
   });
 });
 
 //check if recieved request
-app.post("/has_recieved_request", async (req, res) => {
+app.get("/has_recieved_request", async (req, res) => {
   await hasRecievedRequest(req.query.id, req.query.friendId).then((data) => {
     res.json({ message: "OK", data: data });
   });
