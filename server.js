@@ -128,7 +128,7 @@ app.get("/has_sent_request", async (req, res) => {
 });
 
 //check if recieved request
-app.get("/has_recieved_request", async (req, res) => {
+app.get("/has_received_request", async (req, res) => {
   await hasRecievedRequest(req.query.id, req.query.friendId).then((data) => {
     res.json({ message: "OK", data: data });
   });
