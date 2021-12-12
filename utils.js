@@ -13,7 +13,7 @@ const userSchema = new Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone : { type: String },
-    year: { type: Number},
+    year: { type: String},
     friends: {type : [{ type: String}], default: []},
     classes : {type : [{ type: String }], default: []},
     pendingRequests: {type : [{ type: String }], default: []},
