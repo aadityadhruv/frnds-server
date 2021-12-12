@@ -21,6 +21,7 @@ const {
   hasSentRequest,
   hasReceivedRequest,
   areFriends,
+  getUserById,
 } = require("./utils");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -93,7 +94,7 @@ app.put("/update_user", async (req, res) => {
   await updateUsername(req.body.id, req.body.username);
   await updatePhone(req.body.id, req.body.phone);
   await updateYear(req.body.id, req.body.year);
-  res.json({ message: "OK", data: req.query });
+  res.json({ message: "OK", data: req.body });
 });
 
 //send friend request
@@ -124,6 +125,13 @@ app.post("/remove_friend", async (req, res) => {
 app.get("/has_sent_request", async (req, res) => {
   await hasSentRequest(req.query.id, req.query.friendId).then((data) => {
     res.json({ message: "OK", data: data });
+  });
+});
+
+
+app.get("/user", async (req, res) => {
+  await getUserById(req.query.id).then((data) => {
+    res.json({ message: "OK", data: classes });
   });
 });
 
