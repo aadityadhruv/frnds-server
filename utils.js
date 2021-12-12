@@ -28,6 +28,14 @@ const createUser = (userData) => {
     user.save();
 }
 
+//get all users
+
+    const getAllUsers = async () => {
+        const users = await User.find({});
+        return users;
+    }
+
+
 //GET FUNCTIONS
 //function to get a user by id
  const getUserById = async (id) => {
@@ -195,7 +203,8 @@ module.exports = {
     hasSentRequest,
     hasReceivedRequest,
     commonClasses,
-    friendsInClass
+    friendsInClass,
+    getAllUsers
 }
 
 

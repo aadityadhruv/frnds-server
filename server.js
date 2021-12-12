@@ -22,6 +22,7 @@ const {
   hasReceivedRequest,
   areFriends,
   getUserById,
+  getAllUsers,
 } = require("./utils");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -133,6 +134,15 @@ app.get("/user", async (req, res) => {
   var user = await getUserById(req.query.id);
   res.json({ message: "OK", data: user });
   });
+
+
+
+  //get all users
+  app.get("/users", async (req, res) => {
+    var users = await getAllUsers();
+    res.json({ message: "OK", data: users });
+    });
+
 
 
 //check if recieved request
