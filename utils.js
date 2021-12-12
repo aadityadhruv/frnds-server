@@ -9,7 +9,7 @@ var ObjectId = require('mongodb').ObjectId;
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    _id : { type: String, required: true, default : new ObjectId().toHexString() },
+    _id : { type: String, required: true},
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone : { type: String },
@@ -25,6 +25,9 @@ const User = mongoose.model('User', userSchema);
 //function to create a new user
 const createUser = (userData) => {
     var user = new User(userData);
+    if (!userData._id) {
+        user._id =  new ObjectId().toHexString(); 
+    }
     user.save();
 }
 
