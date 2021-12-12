@@ -12,7 +12,7 @@ const userSchema = new Schema({
     _id : { type: String, required: true, default : new ObjectId().toHexString() },
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phone : { type: String, unique: true },
+    phone : { type: String },
     year: { type: Number},
     friends: {type : [{ type: String}], default: []},
     classes : {type : [{ type: String }], default: []},
