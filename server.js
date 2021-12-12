@@ -130,10 +130,10 @@ app.get("/has_sent_request", async (req, res) => {
 
 
 app.get("/user", async (req, res) => {
-  await getUserById(req.query.id).then((data) => {
-    res.json({ message: "OK", data: classes });
+  var user = await getUserById(req.query.id);
+  res.json({ message: "OK", data: user });
   });
-});
+
 
 //check if recieved request
 app.get("/has_received_request", async (req, res) => {
