@@ -192,10 +192,14 @@ const commonClasses = async (id, friendId) => {
 //function to get the friends in a class
 const friendsInClass = async (id, className) => {
   var user = await User.findById(id);
-  return user.friends.filter(async(friendId) => {
-    var friend = await User.findById(friendId);
-    return friend.classes.includes(className);
-  });
+  val=[]
+  for(var i =0;i<user.friends.length;i++){
+    var friend = await User.findById(user.friends[i]);
+    if(friend.classes.includes(className)){
+      val.push(user.friends[i]);
+    }
+  }
+  return val
 };
 
 
